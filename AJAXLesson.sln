@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AJAXLesson", "AJAXLesson\AJAXLesson.csproj", "{5EBCD137-DD29-474C-8430-206D43A1AA60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EBCD137-DD29-474C-8430-206D43A1AA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EBCD137-DD29-474C-8430-206D43A1AA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EBCD137-DD29-474C-8430-206D43A1AA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EBCD137-DD29-474C-8430-206D43A1AA60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E63994B-E86B-433D-B1C5-DDA9622FF260}
+	EndGlobalSection
+EndGlobal
