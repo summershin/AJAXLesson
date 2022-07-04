@@ -38,5 +38,9 @@ namespace AJAXLesson.Controllers
         {
             return View();
         }
+        public IActionResult AjaxPost()
+        {
+            return View();
+        }
     }
 }

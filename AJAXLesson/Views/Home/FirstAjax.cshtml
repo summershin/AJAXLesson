@@ -7,9 +7,10 @@
 
 <div id="div1"></div>
 <button id="btn_start">start</button>
+<button id="btn_stop">stop</button>
 
-    <input type="text" name="name" id="txtname"/>
-    <input type="number" name="age" id="txtage"/>
+<input type="text" name="name" id="txtname" />
+<input type="number" name="age" id="txtage" />
 
 
 
@@ -17,20 +18,54 @@
     <script>
         const div1 = document.getElementById("div1");
         const btn_start = document.getElementById("btn_start");
+        const btn_stop = document.getElementById("btn_stop");
         const txtname = document.getElementById("txtname");
         const txtage = document.getElementById("txtage");
 
+        let xhr = new XMLHttpRequest();
+
+        btn_stop.addEventListener("click", () => {
+            xhr.abort();
+        })
+
         btn_start.addEventListener("click", () => {
-
-            let xhr = new XMLHttpRequest();
-
+            
             xhr.addEventListener("load", () => {
+                console.log("loading")
                 var data = xhr.responseText;
                 div1.innerHTML = `<h2>${data}</h2>`;
             })
 
+            xhr.addEventListener("loadstart", () => {
+                console.log("loadstart")
+                btn_start.setAttribute("disabled", "disabled");
+                btn_start.textContent = "loading";
+            })
 
-            xhr.open("GET", `/Api/Index?name=${txtname.value}&age=${txtage.value}`);
+            xhr.addEventListener("loadend", () => {
+                console.log("loadend")
+                btn_start.removeAttribute("disabled");
+                btn_start.textContent = "start";
+            })
+
+            xhr.addEventListener("abort", () => {
+                console.log("abort")
+                div1.innerHTML = `您終止了程式的執行`;
+            })
+
+            xhr.addEventListener("timeout", () => {
+                console.log("timeout")
+                div1.innerHTML = `伺服器忙碌中，請稍後在試!`;
+            })
+
+
+            //xhr.open("GET", `/Api/Index?name=${txtname.value}&age=${txtage.value}`);
+            //  /Api/Index?name=${txtname.value}&age=${txtage.value}
+            //  ~/Api/Index?name=${txtname.value}&age=${txtage.value}
+            const url = "@Url.Content("~/api/index")";
+            const params = `?name=${txtname.value}&age=${txtage.value}`;
+            xhr.open("GET", url + params);
+            xhr.timeout = 3000;
             xhr.send();
         })
 
@@ -38,4 +73,4 @@
 }
 @section Styles{
 
- }
+}
