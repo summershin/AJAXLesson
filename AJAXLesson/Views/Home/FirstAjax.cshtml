@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "FirstAjax";
+}
+
+<h1>FirstAjax</h1>
+
+<div id="div1"></div>
+<button id="btn_start">start</button>
+
+    <input type="text" name="name" id="txtname"/>
+    <input type="number" name="age" id="txtage"/>
+
+
+
+@section Scripts{
+    <script>
+        const div1 = document.getElementById("div1");
+        const btn_start = document.getElementById("btn_start");
+        const txtname = document.getElementById("txtname");
+        const txtage = document.getElementById("txtage");
+
+        btn_start.addEventListener("click", () => {
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", () => {
+                var data = xhr.responseText;
+                div1.innerHTML = `<h2>${data}</h2>`;
+            })
+
+
+            xhr.open("GET", `/Api/Index?name=${txtname.value}&age=${txtage.value}`);
+            xhr.send();
+        })
+
+    </script>
+}
+@section Styles{
+
+ }

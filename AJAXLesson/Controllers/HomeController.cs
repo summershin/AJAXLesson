@@ -33,5 +33,10 @@ namespace AJAXLesson.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult FirstAjax()
+        {
+            return View();
+        }
     }
 }
