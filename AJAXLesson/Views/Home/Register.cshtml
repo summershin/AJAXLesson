@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<form name="userinfo" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+        <label for="InputName">姓名</label>
+        <input type="text" class="form-control" id="InputName" name="name">
+    </div>
+    <div class="form-group">
+        <label for="InputEmail">電子郵件</label>
+        <input type="text" class="form-control" id="InputEmail" name="email">
+    </div>
+    <div class="form-group">
+        <label for="InputAge">年紀</label>
+        <input type="number" class="form-control" id="InputAge" name="age">
+    </div>
+    <button type="submit" class="btn btn-primary" id="btn_submit">Submit</button>
+</form>
+<div id="div1"></div>
+@section Styles{
+
+}
+@section Scripts{
+    <script>
+
+        const btn_submit = document.querySelector("#btn_submit");
+        const divinfo = document.querySelector("#div1");
+
+        const xhr = new XMLHttpRequest();
+
+        btn_submit.addEventListener("click", (evt) => {
+
+            evt.preventDefault();
+
+            const formdata = new FormData(document.userinfo);
+
+            xhr.addEventListener("load", () => {
+                const data = xhr.responseText;
+                divinfo.innerHTML = `<h2>${data}</h2>`;
+            })
+
+
+            xhr.open("POST", '@Url.Content("~/Api/Index")');
+            xhr.send(formdata);
+        })
+    </script>
+}
