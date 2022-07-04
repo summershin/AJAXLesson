@@ -9,6 +9,7 @@
     <div class="form-group">
         <label for="InputName">姓名</label>
         <input type="text" class="form-control" id="InputName" name="name">
+        <small id="sl_user" class="form-text text-muted"></small>
     </div>
     <div class="form-group">
         <label for="InputEmail">電子郵件</label>
@@ -29,8 +30,25 @@
 
         const btn_submit = document.querySelector("#btn_submit");
         const divinfo = document.querySelector("#div1");
+        const txt_name = document.querySelector("#InputName");
+        const sl_user = document.querySelector("#sl_user");
 
         const xhr = new XMLHttpRequest();
+
+        txt_name.addEventListener("change", () => {
+           
+
+            xhr.addEventListener("load", () => {
+                const data = xhr.responseText;
+                sl_user.innerHTML = `<h2>${data}</h2>`;
+            })
+
+            const params = `name=${txt_name.value}`
+            console.log(params)
+            xhr.open("POST", '@Url.Content("~/Api/checkUsername")');
+            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+            xhr.send(params);
+        })
 
         btn_submit.addEventListener("click", (evt) => {
 
@@ -47,5 +65,6 @@
             xhr.open("POST", '@Url.Content("~/Api/Index")');
             xhr.send(formdata);
         })
+
     </script>
 }
