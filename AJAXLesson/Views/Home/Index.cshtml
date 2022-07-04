@@ -8,9 +8,9 @@
 </div>
 
 <input type="button" name="btn_changeh1" value="change" id="btn_changeh1" />
+<input type="button" name="btn_createtable" value="table" id="btn_createtable" />
 
-<table id="div_table">
-
+<table id="div_table"hidden>
 </table>
 
 @section Scripts{
@@ -20,6 +20,7 @@
         //    $(".display-4").text("Welcome MVC!")
         //})
 
+        document.createDocumentFragment();
         var emp = {
             "employees": [
                 { "name": "Tom", "workYears": 3, "salary": 35000 },
@@ -27,18 +28,23 @@
                 { "name": "Mary", "workYears": 7, "salary": 45000 }
             ]
         };
+
+
         let t = document.getElementById("div_table");
+        let frag = document.createDocumentFragment();
         let thead = document.createElement("thead");
+        let htr = document.createElement("tr");
         let th1 = document.createElement("th");
         let th2 = document.createElement("th");
         let th3 = document.createElement("th");
         th1.textContent = 'name';
         th2.textContent = 'workYears';
         th3.textContent = 'salary';
-        thead.appendChild(th1);
-        thead.appendChild(th2);
-        thead.appendChild(th3);
-        t.appendChild(thead);
+        htr.appendChild(th1);
+        htr.appendChild(th2);
+        htr.appendChild(th3);
+        thead.appendChild(htr);
+        frag.appendChild(thead);
 
         for (let i = 0, max = emp.employees.length; i < max; i++) {
             let tr = document.createElement("tr");
@@ -51,8 +57,14 @@
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);
-            t.appendChild(tr);
+            frag.appendChild(tr);
         }
+
+        let btn_table = document.getElementById("btn_createtable");
+        btn_table.addEventListener("click", () => {
+            t.removeAttribute("hidden");
+            t.appendChild(frag);
+        })
 
 
     </script>
@@ -64,14 +76,17 @@
         h1 {
             background-color: aqua;
         }
-        table{
-            border:2px solid black;
+
+        table {
+            border: 2px solid black;
         }
+
         th {
             background-color: aquamarine;
             border: 2px solid black;
             padding: 10px;
         }
+
         td {
             background-color: beige;
             border: 2px solid black;
