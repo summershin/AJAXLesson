@@ -47,5 +47,9 @@ namespace AJAXLesson.Controllers
         {
             return View();
         }
+        public IActionResult Address()
+        {
+            return View();
+        }
     }
 }

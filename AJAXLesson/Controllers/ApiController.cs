@@ -69,5 +69,20 @@ namespace AJAXLesson.Controllers
             string info = $"{file.FileName} - {file.ContentType} - {file.Length}";
             return Content(info,"text/plain",System.Text.Encoding.UTF8);
         }
+        public IActionResult City()
+        {
+            var citys = _context.Addresses.Select(n=>n.City).Distinct();
+            return Json(citys);
+        }
+        public IActionResult Distincts(string city)
+        {
+            var distincts = _context.Addresses.Where(c=>c.City==city).Select(n => n.SiteId).Distinct();
+            return Json(distincts);
+        }
+        public IActionResult Roads(string distinct)
+        {
+            var roads = _context.Addresses.Where(d=>d.SiteId ==distinct).Select(n => n.Road);
+            return Json(roads);
+        }
     }
 }
