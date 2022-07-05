@@ -15,7 +15,7 @@ namespace AJAXLesson.Controllers
     {
         private readonly DemoContext _context;
         private readonly IWebHostEnvironment _hostenvironment;
-        public ApiController( DemoContext context,IWebHostEnvironment environment)
+        public ApiController(DemoContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _hostenvironment = environment;
@@ -39,7 +39,7 @@ namespace AJAXLesson.Controllers
         {
             //Debug.WriteLine(1);
             string Name = name;
-            
+
             var q = _context.Members.FirstOrDefault(n => n.Name == name);
             if (q == null)
             {
@@ -50,7 +50,7 @@ namespace AJAXLesson.Controllers
         public IActionResult Register(Member member, IFormFile file)
         {
             string path = Path.Combine(_hostenvironment.WebRootPath, "images", file.FileName);
-            using(var filestream = new FileStream(path, FileMode.Create))
+            using (var filestream = new FileStream(path, FileMode.Create))
             {
                 file.CopyTo(filestream);
             }
@@ -60,29 +60,35 @@ namespace AJAXLesson.Controllers
             {
                 file.CopyTo(memorystream);
                 bytes = memorystream.ToArray();
-            } 
+            }
             member.FileName = file.FileName;
             member.FileData = bytes;
 
             _context.Members.Add(member);
             _context.SaveChanges();
             string info = $"{file.FileName} - {file.ContentType} - {file.Length}";
-            return Content(info,"text/plain",System.Text.Encoding.UTF8);
+            return Content(info, "text/plain", System.Text.Encoding.UTF8);
         }
         public IActionResult City()
         {
-            var citys = _context.Addresses.Select(n=>n.City).Distinct();
+            var citys = _context.Addresses.Select(n => n.City).Distinct();
             return Json(citys);
         }
         public IActionResult Distincts(string city)
         {
-            var distincts = _context.Addresses.Where(c=>c.City==city).Select(n => n.SiteId).Distinct();
+            var distincts = _context.Addresses.Where(c => c.City == city).Select(n => n.SiteId).Distinct();
             return Json(distincts);
         }
         public IActionResult Roads(string distinct)
         {
-            var roads = _context.Addresses.Where(d=>d.SiteId ==distinct).Select(n => n.Road);
+            var roads = _context.Addresses.Where(d => d.SiteId == distinct).Select(n => n.Road);
             return Json(roads);
+        }
+        public IActionResult getImageBytes(int id = 1)
+        {
+            Member member = _context.Members.Find(id);
+            byte[] img = member.FileData;
+            return File(img, "image/jpeg");
         }
     }
 }

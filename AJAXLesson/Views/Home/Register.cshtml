@@ -36,11 +36,16 @@
         const divinfo = document.querySelector("#div1");
         const txt_name = document.querySelector("#InputName");
         const sl_user = document.querySelector("#sl_user");
+        const userinfo = document.querySelector("#userinfo");
+
+
+
+
 
         const xhr = new XMLHttpRequest();
 
         txt_name.addEventListener("change", () => {
-           
+
 
             xhr.addEventListener("load", () => {
                 const data = xhr.responseText;
@@ -54,20 +59,34 @@
             xhr.send(params);
         })
 
+
+
         btn_submit.addEventListener("click", (evt) => {
 
             evt.preventDefault();
 
             const formdata = new FormData(document.userinfo);
 
-            xhr.addEventListener("load", () => {
+            //用fetch() 達成檔案上傳
+
+            var formData = new FormData(document.userinfo)
+            fetch('@Url.Content("~/Api/Register")', {
+                body: formData,
+                method: "POST",
+            }).then(responce => responce.text())
+                .then(data => divinfo.innerHTML = data)
+
+
+        //用XMLHttpRequest達成檔案上傳
+
+            @*xhr.addEventListener("load", () => {
                 const data = xhr.responseText;
                 divinfo.innerHTML = `<h2>${data}</h2>`;
             })
 
 
             xhr.open("POST", '@Url.Content("~/Api/Register")');
-            xhr.send(formdata);
+            xhr.send(formdata);*@
         })
 
     </script>

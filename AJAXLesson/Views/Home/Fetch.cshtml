@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Fetch";
+}
+
+<h1>Fetch</h1>
+<img id="img1" />
+@section Scripts{ 
+    <script>
+        fetch('@Url.Content("~/Api/Index")')
+            .then((response) => {
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.url);
+                console.log(response.ok);
+                //console.log(response.text());  //也是回傳promise物件
+                return response.text();
+            })
+            .then(data => {
+                console.log(data)
+            })
+
+        //console.log(fetch("/Api/Index")); //回傳promise物件
+
+
+        fetch('@Url.Content("~/Api/getImageBytes")')
+            .then(response => response.blob())
+            .then(datas => {
+                const myImg = document.querySelector('#img1');
+                myImg.src = URL.createObjectURL(datas);
+            })
+    </script>
+}
+
+@section Styles{ 
+
+}
