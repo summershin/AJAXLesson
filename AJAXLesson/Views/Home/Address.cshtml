@@ -21,7 +21,7 @@
         const selroad = document.querySelector("#sel_road");
 
         //====載入城市===========
-        xhr.addEventListener("load", () => {
+        @*xhr.addEventListener("load", () => {
             const datas = JSON.parse(xhr.responseText)
             datas.forEach(city => {
                 var opt = new Option(city, city);
@@ -30,7 +30,49 @@
         })
 
         xhr.open("GET",'@Url.Content("~/Api/City")')
-        xhr.send()
+        xhr.send()*@
+
+        //作業
+        async function Loadcity() {
+            const responce = await fetch('@Url.Content("~/Api/City")');
+            const datas = await responce.json();
+            datas.forEach(city => {
+                var opt = new Option(city, city);
+                selcity.options.add(opt);
+            })
+            changecity();
+        }
+        Loadcity();
+
+        selcity.addEventListener("change", changecity);
+        seldistinct.addEventListener("change", changedistinct);
+
+        
+        async function changecity() {
+            seldistinct.textContent = "";
+            const selectedcity = await selcity.options[selcity.selectedIndex].value
+            const redistincts = await fetch('@Url.Content("~/Api/Distincts")' +`?city=${selectedcity}`)
+               
+            const distincts = await redistincts.json();
+            distincts.forEach(distinct => {
+                var opt = new Option(distinct, distinct);
+                seldistinct.options.add(opt);
+            });
+            changedistinct();
+        }
+
+        async function changedistinct() {
+            selroad.textContent = "";
+            const selecteddistinct = await seldistinct.options[seldistinct.selectedIndex].value
+            const reroad = await fetch('@Url.Content("~/Api/Roads")' + `?distinct=${selecteddistinct}`)
+
+            const roads = await reroad.json();
+            roads.forEach(road => {
+                var opt = new Option(road, road);
+                selroad.options.add(opt);
+            });
+        }
+
     </script>
 
 }
