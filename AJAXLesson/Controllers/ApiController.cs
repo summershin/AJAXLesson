@@ -1,8 +1,11 @@
 ﻿using AJAXLesson.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,9 +14,11 @@ namespace AJAXLesson.Controllers
     public class ApiController : Controller
     {
         private readonly DemoContext _context;
-        public ApiController( DemoContext context)
+        private readonly IWebHostEnvironment _hostenvironment;
+        public ApiController( DemoContext context,IWebHostEnvironment environment)
         {
             _context = context;
+            _hostenvironment = environment;
         }
 
         public IActionResult Index(User user)
@@ -41,6 +46,28 @@ namespace AJAXLesson.Controllers
                 return Content(Name + "可使用此暱稱");
             }
             return Content(Name + "暱稱已被使用");
+        }
+        public IActionResult Register(Member member, IFormFile file)
+        {
+            string path = Path.Combine(_hostenvironment.WebRootPath, "images", file.FileName);
+            using(var filestream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(filestream);
+            }
+
+            Byte[] bytes = null;
+            using (var memorystream = new MemoryStream())
+            {
+                file.CopyTo(memorystream);
+                bytes = memorystream.ToArray();
+            } 
+            member.FileName = file.FileName;
+            member.FileData = bytes;
+
+            _context.Members.Add(member);
+            _context.SaveChanges();
+            string info = $"{file.FileName} - {file.ContentType} - {file.Length}";
+            return Content(info,"text/plain",System.Text.Encoding.UTF8);
         }
     }
 }
