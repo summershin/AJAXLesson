@@ -51,5 +51,9 @@ namespace AJAXLesson.Controllers
         {
             return View();
         }
+        public IActionResult Promise()
+        {
+            return View();
+        }
     }
 }

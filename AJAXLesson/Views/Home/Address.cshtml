@@ -20,15 +20,14 @@
         const seldistinct = document.querySelector("#sel_distinct");
         const selroad = document.querySelector("#sel_road");
 
+        //====載入城市===========
         xhr.addEventListener("load", () => {
             const datas = JSON.parse(xhr.responseText)
             datas.forEach(city => {
-                const opt = new Option(city, city);
+                var opt = new Option(city, city);
                 selcity.options.add(opt);
             })
         })
-
-        
 
         xhr.open("GET",'@Url.Content("~/Api/City")')
         xhr.send()
