@@ -59,5 +59,18 @@ namespace AJAXLesson.Controllers
         {
             return View();
         }
+        public IActionResult History()
+        {
+            return View();
+        }
+        public IActionResult jQuery()
+        {
+            return View();
+        }
+        public IActionResult Partial()
+        {
+            ViewBag.data = "Hello Partial!!";
+            return PartialView();
+        }
     }
 }

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+<button id="buttonGet" class="btn btn-primary">get</button>
+<button id="buttonPost" class="btn btn-secondary">post</button>
+<button id="buttonJson" class="btn btn-success">getJson</button>
+<button id="buttonLoad" class="btn btn-info">load</button>
+<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonCors" class="btn btn-danger">cors</button>
+<div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+
+</div>
+@section Scripts{
+    <script>
+        $('#buttonGet').click(function () {
+            $.get('@Url.Content("~/Api/Index")', { "name": "Jack", "age": 23 },
+                function (data) {
+                    $('#divAlert').text(data);
+                })
+        })
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/Api/Index")', { "name": "Mary", "age": 25 },
+                function (data) {
+                    $('#divAlert').text(data);
+                })
+        })
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/Api/Distincts")', { "city": "宜蘭縣" },
+                function (data) {
+                    $('#divAlert').text("JSON");
+                    $.each(data, function (idx,item) {
+                        console.log(item)
+                    })
+                })
+        })
+        $('#buttonLoad').click(function () {
+            $('#divAlert').load('@Url.Content("~/Home/Partial")')
+        })
+        $('#buttonAjax').click(function () {
+            $.ajax({
+                url: '@Url.Content("~/Api/Distincts")',
+                type: "GET",
+                data: { "city": "宜蘭縣" },
+                dataType: 'JSON'
+            }).done((data) => {
+                console.log(data);
+            })
+            $('#divAlert').text("AJAX")
+        })
+        $('#buttonCors').click(function () {
+            $('#divAlert').text("CORs")
+        })
+
+    </script>
+}
+@section Styles{
+
+}
